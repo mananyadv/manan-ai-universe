@@ -1,7 +1,35 @@
 
 import { Mail, Linkedin, MapPin, Phone } from "lucide-react";
+import { useState } from "react";
+import { useToast } from "@/hooks/use-toast";
 
 export const Contact = () => {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [message, setMessage] = useState("");
+  const { toast } = useToast();
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    // Construct the mailto URL with form data
+    const mailtoUrl = `mailto:yadav.manan@outlook.com?subject=Contact from ${encodeURIComponent(name)}&body=${encodeURIComponent(`Message from: ${name}\nEmail: ${email}\n\n${message}`)}`;
+    
+    // Open the user's default email client
+    window.location.href = mailtoUrl;
+    
+    // Show success message
+    toast({
+      title: "Email client opened",
+      description: "Please send the email from your email client to complete the message.",
+    });
+
+    // Reset form
+    setName("");
+    setEmail("");
+    setMessage("");
+  };
+
   return (
     <section id="contact" className="py-20 bg-primary text-white">
       <div className="container mx-auto px-4">
@@ -48,23 +76,35 @@ export const Contact = () => {
               </div>
             </div>
           </div>
-          <form className="space-y-4">
+          <form onSubmit={handleSubmit} className="space-y-4">
             <input
               type="text"
               placeholder="Your Name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              required
               className="w-full px-4 py-2 rounded-lg bg-white/10 border border-white/20 focus:outline-none focus:border-accent"
             />
             <input
               type="email"
               placeholder="Your Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
               className="w-full px-4 py-2 rounded-lg bg-white/10 border border-white/20 focus:outline-none focus:border-accent"
             />
             <textarea
               placeholder="Your Message"
+              value={message}
+              onChange={(e) => setMessage(e.target.value)}
+              required
               rows={4}
               className="w-full px-4 py-2 rounded-lg bg-white/10 border border-white/20 focus:outline-none focus:border-accent"
             ></textarea>
-            <button className="w-full bg-accent hover:bg-accent/80 text-white font-bold py-2 px-4 rounded-lg transition-colors">
+            <button 
+              type="submit"
+              className="w-full bg-accent hover:bg-accent/80 text-white font-bold py-2 px-4 rounded-lg transition-colors"
+            >
               Send Message
             </button>
           </form>
