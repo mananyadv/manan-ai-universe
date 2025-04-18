@@ -9,9 +9,7 @@ export const Navigation = () => {
 
   const links = [
     { href: "/", label: "Home" },
-    { href: "/portfolio", label: "Portfolio" },
     { href: "/blog", label: "Blog" },
-    { href: "/projects", label: "Projects" },
   ];
 
   return (
